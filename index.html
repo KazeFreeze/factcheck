@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Credibility Checker - Philippines</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background: #333;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #555;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 20px;
+            background: #e7e7e7;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Credibility Checker - Philippines</h1>
+        <textarea id="content" rows="10" placeholder="Enter content or paste website URL here"></textarea>
+        <button onclick="checkCredibility()">Check Credibility</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function checkCredibility() {
+            const content = document.getElementById('content').value;
+            const result = document.getElementById('result');
+
+            // Dummy data for demonstration
+            const credibleSources = [
+                {name: "Rappler", url: "https://www.rappler.com/"},
+                {name: "ABS-CBN News", url: "https://news.abs-cbn.com/"},
+                {name: "Philippine Daily Inquirer", url: "https://www.inquirer.net/"},
+            ];
+
+            const comments = [
+                {user: "JuanDelaCruz", comment: "This information is accurate based on my research.", affirmation: true},
+                {user: "MariaClara", comment: "I've seen conflicting reports on this topic.", affirmation: false},
+                {user: "RizalFan", comment: "The article provides good sources to back its claims.", affirmation: true},
+            ];
+
+            // Simulate matching with credible sources (70% weight)
+            const sourceMatches = Math.floor(Math.random() * 3) + 1;
+            const sourceScore = (sourceMatches / credibleSources.length) * 70;
+
+            // Simulate comment analysis (30% weight)
+            const commentScore = (comments.filter(c => c.affirmation).length / comments.length) * 30;
+
+            const totalScore = Math.round(sourceScore + commentScore);
+
+            let credibilityRating;
+            if (totalScore >= 80) credibilityRating = "Credible";
+            else if (totalScore >= 60) credibilityRating = "Mixed";
+            else if (totalScore >= 40) credibilityRating = "Untrustworthy";
+            else credibilityRating = "Not Enough Information";
+
+            // Generate result HTML
+            let resultHTML = `
+                <h2>Credibility Score: ${totalScore}/100 (${credibilityRating})</h2>
+                <h3>Matching Credible Sources:</h3>
+                <ul>
+                    ${credibleSources.slice(0, sourceMatches).map(source => `<li><a href="${source.url}" target="_blank">${source.name}</a></li>`).join('')}
+                </ul>
+                <h3>User Comments:</h3>
+                <ul>
+                    ${comments.map(comment => `<li><strong>${comment.user}:</strong> ${comment.comment} (${comment.affirmation ? 'Affirms' : 'Refutes'})</li>`).join('')}
+                </ul>
+                <h3>AI Model Verification:</h3>
+                <p><strong>GPT:</strong> The content appears to be ${credibilityRating.toLowerCase()} based on our analysis.</p>
+                <p><strong>Claude:</strong> Our evaluation suggests that this information is ${credibilityRating.toLowerCase()}. Further verification may be needed.</p>
+            `;
+
+            result.innerHTML = resultHTML;
+        }
+    </script>
+</body>
+</html>
