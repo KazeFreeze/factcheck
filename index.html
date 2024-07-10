@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fact Check ✓</title>
+    <title>Fact Check</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -11,13 +11,15 @@
             line-height: 1.6;
             margin: 0;
             padding: 20px;
-            background-color: #f0f2f5;
+            background-image: url('https://media.istockphoto.com/id/528972954/photo/makati-skyline.jpg?s=612x612&w=0&k=20&c=nFGR_tFKIfi627VPb2BtWjln_tzwU2cdbxdzP0I3kWI=');
+            background-size: cover;
+            background-attachment: fixed;
             color: #333;
         }
         .container {
             max-width: 800px;
             margin: auto;
-            background: white;
+            background: rgba(255, 255, 255, 0.9);
             padding: 30px;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
@@ -27,6 +29,11 @@
             text-align: center;
             font-weight: 700;
         }
+        .logo {
+            font-size: 40px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
         textarea {
             width: 100%;
             padding: 15px;
@@ -35,6 +42,7 @@
             border-radius: 4px;
             font-size: 16px;
             resize: vertical;
+            background: rgba(255, 255, 255, 0.8);
         }
         button {
             display: block;
@@ -55,7 +63,7 @@
         #result {
             margin-top: 30px;
             padding: 20px;
-            background: #fff;
+            background: rgba(255, 255, 255, 0.8);
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
@@ -66,7 +74,7 @@
             margin-bottom: 20px;
         }
         .source-match {
-            background: #e8f0fe;
+            background: rgba(232, 240, 254, 0.8);
             padding: 15px;
             margin-bottom: 15px;
             border-radius: 4px;
@@ -76,28 +84,47 @@
             color: #1a73e8;
         }
         .matched-content {
-            background: #f8f9fa;
+            background: rgba(248, 249, 250, 0.8);
             padding: 10px;
             border-left: 3px solid #1a73e8;
             margin-top: 10px;
         }
         .comment {
-            background: #f8f9fa;
             padding: 10px;
             margin-bottom: 10px;
             border-radius: 4px;
         }
+        .comment.affirm {
+            background: rgba(0, 255, 0, 0.2);
+        }
+        .comment.refute {
+            background: rgba(255, 0, 0, 0.2);
+        }
         .ai-verification {
-            background: #e8f0fe;
+            background: rgba(232, 240, 254, 0.8);
             padding: 15px;
             margin-top: 20px;
             border-radius: 4px;
+        }
+        .comment-meter {
+            width: 100%;
+            height: 20px;
+            background-color: #f3f3f3;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        .comment-meter-fill {
+            height: 100%;
+            background-color: #4CAF50;
+            transition: width 0.5s ease-in-out;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Fact Check ✓</h1>
+        <div class="logo">🦅</div>
+        <h1>Fact Check</h1>
         <textarea id="content" rows="8" placeholder="Enter content or paste website URL here"></textarea>
         <button onclick="checkCredibility()">Check Credibility</button>
         <div id="result"></div>
@@ -136,6 +163,8 @@
             else if (totalScore >= 40) credibilityRating = "Untrustworthy";
             else credibilityRating = "Not Enough Information";
 
+            const commentApprovalRate = (comments.filter(c => c.affirmation).length / comments.length) * 100;
+
             // Generate result HTML
             let resultHTML = `
                 <div class="score">Credibility Score: ${totalScore}/100 (${credibilityRating})</div>
@@ -148,8 +177,11 @@
                     </div>
                 `).join('')}
                 <h3>User Comments:</h3>
+                <div class="comment-meter">
+                    <div class="comment-meter-fill" style="width: ${commentApprovalRate}%;"></div>
+                </div>
                 ${comments.map(comment => `
-                    <div class="comment">
+                    <div class="comment ${comment.affirmation ? 'affirm' : 'refute'}">
                         <strong>${comment.user}:</strong> ${comment.comment} 
                         <em>(${comment.affirmation ? 'Affirms' : 'Refutes'})</em>
                     </div>
