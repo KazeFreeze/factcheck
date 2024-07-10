@@ -254,20 +254,30 @@
             {user: "MediaWatcher", comment: "This seems to be sensationalized. The actual data tells a different story.", affirmation: false, verified: true}
         ];
 
-        const sourceMatches = Math.floor(Math.random() * 3) + 1;
-        const sourceScore = (sourceMatches / credibleSources.length) * 70;
+        // Randomize credibility score
+        const totalScore = Math.floor(Math.random() * 101);
 
-        const commentScore = (comments.filter(c => c.affirmation).length / comments.length) * 30;
-
-        const totalScore = Math.round(sourceScore + commentScore);
-
+        // Determine credibility rating based on score
         let credibilityRating;
         if (totalScore >= 75) credibilityRating = "Credible";
         else if (totalScore >= 50) credibilityRating = "Mixed";
         else if (totalScore >= 25) credibilityRating = "Untrustworthy";
         else credibilityRating = "Insufficient Information";
 
-        const sentimentScore = Math.floor(Math.random() * 101);
+        // Adjust number of credible sources based on credibility rating
+        let sourceMatches;
+        if (credibilityRating === "Credible") sourceMatches = Math.floor(Math.random() * 2) + 4; // 4-5 sources
+        else if (credibilityRating === "Mixed") sourceMatches = Math.floor(Math.random() * 2) + 2; // 2-3 sources
+        else if (credibilityRating === "Untrustworthy") sourceMatches = Math.floor(Math.random() * 2) + 1; // 1-2 sources
+        else sourceMatches = Math.floor(Math.random() * 2); // 0-1 sources
+
+        // Adjust community sentiment based on credibility rating
+        let sentimentScore;
+        if (credibilityRating === "Credible") sentimentScore = Math.floor(Math.random() * 21) + 80; // 80-100%
+        else if (credibilityRating === "Mixed") sentimentScore = Math.floor(Math.random() * 31) + 50; // 50-80%
+        else if (credibilityRating === "Untrustworthy") sentimentScore = Math.floor(Math.random() * 31) + 20; // 20-50%
+        else sentimentScore = Math.floor(Math.random() * 21); // 0-20%
+
         const isMajorityAffirmative = sentimentScore > 50;
 
         let resultHTML = `
