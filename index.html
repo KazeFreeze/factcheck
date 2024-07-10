@@ -4,131 +4,122 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fact Check</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦅</text></svg>">
     <style>
         :root {
-            --ultramarine: #3f00ff;
+            --primary-color: #635bff;
+            --text-color: #1a1f36;
+            --background-color: #f6f9fc;
+            --card-background: #ffffff;
         }
         body {
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Inter', sans-serif;
             line-height: 1.6;
             margin: 0;
             padding: 0;
-            color: #e0e0e0;
-            background-image: url('https://federalland.ph/wp-content/uploads/2023/07/skyline-of-metro-manila-at-night-jpeg.webp');
-            background-size: cover;
-            background-attachment: scroll;
-            background-position: center;
+            color: var(--text-color);
+            background: linear-gradient(150deg, #f6f9fc 15%, #ffffff 70%, #f6f9fc 94%);
+            min-height: 100vh;
         }
         .container {
-            max-width: 800px;
-            margin: 20px auto;
-            background: rgba(30, 30, 30, 0.9);
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-        }
-        h1, h2, h3, h4 {
-            color: var(--ultramarine);
+            max-width: 1040px;
+            margin: 40px auto;
+            padding: 0 20px;
         }
         h1 {
-            text-align: center;
-            font-weight: 900;
             font-size: 48px;
-            margin-bottom: 30px;
-            background: linear-gradient(to right, transparent, rgba(63, 0, 255, 0.8), transparent);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 40px;
+            color: var(--primary-color);
         }
         .logo {
-            font-size: 80px;
+            font-size: 64px;
             text-align: center;
             margin-bottom: 20px;
+        }
+        .card {
+            background: var(--card-background);
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+            padding: 30px;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
         }
         textarea {
             width: 100%;
             padding: 15px;
             margin-bottom: 20px;
-            border: 2px solid #fff;
+            border: 1px solid #e0e0e0;
             border-radius: 4px;
             font-size: 16px;
             resize: vertical;
-            background: transparent;
-            color: #e0e0e0;
+            background: var(--background-color);
+            color: var(--text-color);
             box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
         }
         button {
             display: block;
             width: 100%;
             padding: 12px;
-            background: var(--ultramarine);
-            color: #fff;
+            background: var(--primary-color);
+            color: #ffffff;
             border: none;
             border-radius: 4px;
             cursor: pointer;
             font-size: 16px;
-            font-weight: 500;
-            transition: background 0.3s ease;
+            font-weight: 600;
+            transition: all 0.3s ease;
         }
         button:hover {
-            background: #3200cc;
-        }
-        #result {
-            margin-top: 30px;
-            padding: 20px;
-            background: rgba(40, 40, 40, 0.8);
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            background: #5147ff;
+            transform: translateY(-1px);
+            box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
         }
         .score {
             font-size: 36px;
             font-weight: 700;
-            color: var(--ultramarine);
+            color: var(--primary-color);
             margin-bottom: 30px;
             text-align: center;
         }
         .source-match {
-            background: rgba(60, 60, 60, 0.8);
-            padding: 15px;
             margin-bottom: 15px;
-            border-radius: 4px;
         }
         .source-match h4 {
             margin-top: 0;
+            color: var(--primary-color);
         }
         .matched-content {
-            background: rgba(70, 70, 70, 0.8);
+            background: var(--background-color);
             padding: 10px;
-            border-left: 3px solid var(--ultramarine);
+            border-left: 3px solid var(--primary-color);
             margin-top: 10px;
+            border-radius: 0 4px 4px 0;
         }
         .comment {
             padding: 10px;
             margin-bottom: 10px;
             border-radius: 4px;
-        }
-        .comment.affirm {
-            background: rgba(0, 255, 0, 0.2);
-        }
-        .comment.refute {
-            background: rgba(255, 0, 0, 0.2);
-        }
-        .ai-verification {
-            background: rgba(60, 60, 60, 0.8);
-            padding: 15px;
-            margin-top: 20px;
-            border-radius: 4px;
+            background: var(--background-color);
         }
         .sentiment-meter {
             width: 100%;
-            height: 20px;
-            background-color: #444;
-            border-radius: 10px;
+            height: 8px;
+            background-color: #e0e0e0;
+            border-radius: 4px;
             overflow: hidden;
             margin-bottom: 20px;
-            position: relative;
         }
         .sentiment-meter-fill {
             height: 100%;
@@ -136,20 +127,21 @@
         }
         .sentiment-percentage {
             margin-left: 10px;
-            font-weight: bold;
+            font-weight: 600;
         }
         a {
-            color: var(--ultramarine);
+            color: var(--primary-color);
             text-decoration: none;
+            transition: color 0.3s ease;
         }
         a:hover {
-            text-decoration: underline;
+            color: #5147ff;
         }
         .verified-badge {
             display: inline-block;
             width: 16px;
             height: 16px;
-            background-color: var(--ultramarine);
+            background-color: var(--primary-color);
             border-radius: 50%;
             margin-left: 5px;
             position: relative;
@@ -167,7 +159,7 @@
         .verified-badge:hover::before {
             content: "This contributor is verified";
             position: absolute;
-            background-color: rgba(0, 0, 0, 0.8);
+            background-color: var(--text-color);
             color: white;
             padding: 5px 10px;
             border-radius: 4px;
@@ -184,8 +176,10 @@
     <div class="container">
         <div class="logo">🦅</div>
         <h1>Fact Check</h1>
-        <textarea id="content" rows="8" placeholder="Enter content or paste website URL here"></textarea>
-        <button onclick="checkCredibility()">Check Credibility</button>
+        <div class="card">
+            <textarea id="content" rows="8" placeholder="Enter content or paste website URL here"></textarea>
+            <button onclick="checkCredibility()">Check Credibility</button>
+        </div>
         <div id="result"></div>
     </div>
 
@@ -231,31 +225,35 @@
 
             // Generate result HTML
             let resultHTML = `
-                <div class="score">Credibility Score: ${totalScore}/100<br>(${credibilityRating})</div>
-                <h3>Matching Credible Sources:</h3>
-                ${credibleSources.sort(() => 0.5 - Math.random()).slice(0, sourceMatches).map(source => {
-                    const matchedContent = content.split('.')[Math.floor(Math.random() * content.split('.').length)];
-                    return `
-                        <div class="source-match">
-                            <h4><a href="${source.url}" target="_blank">${source.name}</a></h4>
-                            <div>Matched content:</div>
-                            <div class="matched-content">"${matchedContent}"</div>
-                        </div>
-                    `;
-                }).join('')}
-                <h3>Community Feedback and Votes:</h3>
-                <div class="sentiment-meter">
-                    <div class="sentiment-meter-fill" style="width: ${sentimentScore}%; background-color: ${sentimentScore > 50 ? '#4CAF50' : sentimentScore < 50 ? '#FF5252' : '#888'};"></div>
+                <div class="card">
+                    <div class="score">Credibility Score: ${totalScore}/100<br>(${credibilityRating})</div>
+                    <h3>Matching Credible Sources:</h3>
+                    ${credibleSources.sort(() => 0.5 - Math.random()).slice(0, sourceMatches).map(source => {
+                        const matchedContent = content.split('.')[Math.floor(Math.random() * content.split('.').length)];
+                        return `
+                            <div class="source-match">
+                                <h4><a href="${source.url}" target="_blank">${source.name}</a></h4>
+                                <div>Matched content:</div>
+                                <div class="matched-content">"${matchedContent}"</div>
+                            </div>
+                        `;
+                    }).join('')}
                 </div>
-                <span class="sentiment-percentage">${Math.round(sentimentScore)}% Affirmation</span>
-                ${comments.map(comment => `
-                    <div class="comment ${comment.affirmation ? 'affirm' : 'refute'}">
-                        <strong>@${comment.user}</strong>${comment.verified ? '<span class="verified-badge"></span>' : ''}:
-                        ${comment.comment}
-                        <em>(${comment.affirmation ? 'Affirms' : 'Refutes'})</em>
+                <div class="card">
+                    <h3>Community Feedback and Votes:</h3>
+                    <div class="sentiment-meter">
+                        <div class="sentiment-meter-fill" style="width: ${sentimentScore}%; background-color: ${sentimentScore > 50 ? '#4CAF50' : sentimentScore < 50 ? '#FF5252' : '#888'};"></div>
                     </div>
-                `).join('')}
-                <div class="ai-verification">
+                    <span class="sentiment-percentage">${Math.round(sentimentScore)}% Affirmation</span>
+                    ${comments.map(comment => `
+                        <div class="comment">
+                            <strong>@${comment.user}</strong>${comment.verified ? '<span class="verified-badge"></span>' : ''}:
+                            ${comment.comment}
+                            <em>(${comment.affirmation ? 'Affirms' : 'Refutes'})</em>
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="card">
                     <h3>AI Model Verification:</h3>
                     <p><strong>GPT:</strong> The content appears to be ${credibilityRating.toLowerCase()} based on our analysis.</p>
                     <p><strong>Claude:</strong> Our evaluation suggests that this information is ${credibilityRating.toLowerCase()}. Further verification may be needed.</p>
