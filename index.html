@@ -4,36 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fact Check</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦅</text></svg>">
     <style>
+        :root {
+            --ultramarine: #3f00ff;
+        }
         body {
             font-family: 'Roboto', sans-serif;
             line-height: 1.6;
             margin: 0;
-            padding: 20px;
-            background-image: url('https://media.istockphoto.com/id/528972954/photo/makati-skyline.jpg?s=612x612&w=0&k=20&c=nFGR_tFKIfi627VPb2BtWjln_tzwU2cdbxdzP0I3kWI=');
-            background-size: cover;
-            background-attachment: fixed;
+            padding: 0;
             color: #e0e0e0;
+            background-image: url('https://federalland.ph/wp-content/uploads/2023/07/skyline-of-metro-manila-at-night-jpeg.webp');
+            background-size: cover;
+            background-attachment: scroll;
+            background-position: center;
         }
         .container {
             max-width: 800px;
-            margin: auto;
+            margin: 20px auto;
             background: rgba(30, 30, 30, 0.9);
             padding: 30px;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.3);
         }
         h1, h2, h3, h4 {
-            color: #4a9eff;
+            color: var(--ultramarine);
         }
         h1 {
             text-align: center;
             font-weight: 900;
             font-size: 48px;
             margin-bottom: 30px;
-            background: linear-gradient(to right, transparent, rgba(74, 158, 255, 0.8), transparent);
+            background: linear-gradient(to right, transparent, rgba(63, 0, 255, 0.8), transparent);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
@@ -59,7 +63,7 @@
             display: block;
             width: 100%;
             padding: 12px;
-            background: #4a9eff;
+            background: var(--ultramarine);
             color: #fff;
             border: none;
             border-radius: 4px;
@@ -69,7 +73,7 @@
             transition: background 0.3s ease;
         }
         button:hover {
-            background: #3a7fcf;
+            background: #3200cc;
         }
         #result {
             margin-top: 30px;
@@ -81,7 +85,7 @@
         .score {
             font-size: 36px;
             font-weight: 700;
-            color: #4a9eff;
+            color: var(--ultramarine);
             margin-bottom: 30px;
             text-align: center;
         }
@@ -97,15 +101,13 @@
         .matched-content {
             background: rgba(70, 70, 70, 0.8);
             padding: 10px;
-            border-left: 3px solid #4a9eff;
+            border-left: 3px solid var(--ultramarine);
             margin-top: 10px;
         }
         .comment {
             padding: 10px;
             margin-bottom: 10px;
             border-radius: 4px;
-            display: flex;
-            align-items: center;
         }
         .comment.affirm {
             background: rgba(0, 255, 0, 0.2);
@@ -137,33 +139,44 @@
             font-weight: bold;
         }
         a {
-            color: #4a9eff;
+            color: var(--ultramarine);
             text-decoration: none;
         }
         a:hover {
             text-decoration: underline;
         }
-        .user-profile {
-            width: 40px;
-            height: 40px;
+        .verified-badge {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background-color: var(--ultramarine);
             border-radius: 50%;
-            background-color: #4a9eff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 10px;
-            font-weight: bold;
+            margin-left: 5px;
+            position: relative;
+            cursor: help;
         }
-        .user-info {
-            display: flex;
-            flex-direction: column;
+        .verified-badge::after {
+            content: "✓";
+            color: white;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 12px;
         }
-        .user-fullname {
-            font-weight: bold;
-        }
-        .user-handle {
-            font-size: 0.8em;
-            color: #888;
+        .verified-badge:hover::before {
+            content: "This contributor is verified";
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
         }
     </style>
 </head>
@@ -192,11 +205,11 @@
             ];
 
             const comments = [
-                {user: "JuanDelaCruz", fullName: "Juan Dela Cruz", comment: "This information aligns with the official government statistics.", affirmation: true},
-                {user: "MariaClara", fullName: "Maria Clara de los Santos", comment: "I've seen slightly different figures in other reports. It might be worth cross-checking.", affirmation: false},
-                {user: "RizalFan", fullName: "Jose Rizal Fan", comment: "The article provides good sources to back its claims, increasing its credibility.", affirmation: true},
-                {user: "PinoyPride", fullName: "Filipino Pride", comment: "I'm skeptical about these numbers. We need more context.", affirmation: false},
-                {user: "FactChecker101", fullName: "Fact Checker", comment: "After verifying with multiple sources, this information seems accurate.", affirmation: true},
+                {user: "JuanDelaCruz", comment: "This information aligns with the official government statistics.", affirmation: true, verified: true},
+                {user: "MariaClara", comment: "I've seen slightly different figures in other reports. It might be worth cross-checking.", affirmation: false, verified: false},
+                {user: "RizalFan", comment: "The article provides good sources to back its claims, increasing its credibility.", affirmation: true, verified: true},
+                {user: "PinoyPride", comment: "I'm skeptical about these numbers. We need more context.", affirmation: false, verified: false},
+                {user: "FactChecker101", comment: "After verifying with multiple sources, this information seems accurate.", affirmation: true, verified: true},
             ];
 
             // Simulate matching with credible sources (70% weight)
@@ -237,15 +250,9 @@
                 <span class="sentiment-percentage">${Math.round(sentimentScore)}% Affirmation</span>
                 ${comments.map(comment => `
                     <div class="comment ${comment.affirmation ? 'affirm' : 'refute'}">
-                        <div class="user-profile">${comment.fullName.charAt(0)}</div>
-                        <div class="user-info">
-                            <span class="user-fullname">${comment.fullName}</span>
-                            <span class="user-handle">@${comment.user}</span>
-                        </div>
-                        <div class="comment-content">
-                            ${comment.comment}
-                            <em>(${comment.affirmation ? 'Affirms' : 'Refutes'})</em>
-                        </div>
+                        <strong>@${comment.user}</strong>${comment.verified ? '<span class="verified-badge"></span>' : ''}:
+                        ${comment.comment}
+                        <em>(${comment.affirmation ? 'Affirms' : 'Refutes'})</em>
                     </div>
                 `).join('')}
                 <div class="ai-verification">
