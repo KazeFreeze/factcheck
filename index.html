@@ -14,18 +14,20 @@
             background-image: url('https://media.istockphoto.com/id/528972954/photo/makati-skyline.jpg?s=612x612&w=0&k=20&c=nFGR_tFKIfi627VPb2BtWjln_tzwU2cdbxdzP0I3kWI=');
             background-size: cover;
             background-attachment: fixed;
-            color: #333;
+            color: #e0e0e0;
         }
         .container {
             max-width: 800px;
             margin: auto;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(30, 30, 30, 0.9);
             padding: 30px;
             border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+        h1, h2, h3, h4 {
+            color: #4a9eff;
         }
         h1 {
-            color: #1a73e8;
             text-align: center;
             font-weight: 700;
         }
@@ -38,17 +40,18 @@
             width: 100%;
             padding: 15px;
             margin-bottom: 20px;
-            border: 1px solid #ddd;
+            border: 1px solid #444;
             border-radius: 4px;
             font-size: 16px;
             resize: vertical;
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(50, 50, 50, 0.8);
+            color: #e0e0e0;
         }
         button {
             display: block;
             width: 100%;
             padding: 12px;
-            background: #1a73e8;
+            background: #4a9eff;
             color: #fff;
             border: none;
             border-radius: 4px;
@@ -58,35 +61,35 @@
             transition: background 0.3s ease;
         }
         button:hover {
-            background: #1557b0;
+            background: #3a7fcf;
         }
         #result {
             margin-top: 30px;
             padding: 20px;
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(40, 40, 40, 0.8);
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
         .score {
-            font-size: 24px;
+            font-size: 36px;
             font-weight: 700;
-            color: #1a73e8;
-            margin-bottom: 20px;
+            color: #4a9eff;
+            margin-bottom: 30px;
+            text-align: center;
         }
         .source-match {
-            background: rgba(232, 240, 254, 0.8);
+            background: rgba(60, 60, 60, 0.8);
             padding: 15px;
             margin-bottom: 15px;
             border-radius: 4px;
         }
         .source-match h4 {
             margin-top: 0;
-            color: #1a73e8;
         }
         .matched-content {
-            background: rgba(248, 249, 250, 0.8);
+            background: rgba(70, 70, 70, 0.8);
             padding: 10px;
-            border-left: 3px solid #1a73e8;
+            border-left: 3px solid #4a9eff;
             margin-top: 10px;
         }
         .comment {
@@ -101,23 +104,39 @@
             background: rgba(255, 0, 0, 0.2);
         }
         .ai-verification {
-            background: rgba(232, 240, 254, 0.8);
+            background: rgba(60, 60, 60, 0.8);
             padding: 15px;
             margin-top: 20px;
             border-radius: 4px;
         }
-        .comment-meter {
+        .sentiment-meter {
             width: 100%;
             height: 20px;
-            background-color: #f3f3f3;
+            background-color: #444;
             border-radius: 10px;
             overflow: hidden;
             margin-bottom: 20px;
+            position: relative;
         }
-        .comment-meter-fill {
+        .sentiment-meter::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 2px;
             height: 100%;
-            background-color: #4CAF50;
+            background-color: #777;
+        }
+        .sentiment-meter-fill {
+            height: 100%;
             transition: width 0.5s ease-in-out;
+        }
+        a {
+            color: #4a9eff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -137,15 +156,20 @@
 
             // Dummy data for demonstration
             const credibleSources = [
-                {name: "Rappler", url: "https://www.rappler.com/", matchedContent: "The Philippine economy grew by 7.6% in 2022."},
-                {name: "ABS-CBN News", url: "https://news.abs-cbn.com/", matchedContent: "Unemployment rate in the Philippines decreased to 4.3% in April 2023."},
-                {name: "Philippine Daily Inquirer", url: "https://www.inquirer.net/", matchedContent: "The Philippines aims to vaccinate 90% of its population against COVID-19 by the end of 2023."},
+                {name: "Rappler", url: "https://www.rappler.com/"},
+                {name: "ABS-CBN News", url: "https://news.abs-cbn.com/"},
+                {name: "Philippine Daily Inquirer", url: "https://www.inquirer.net/"},
+                {name: "GMA News Online", url: "https://www.gmanetwork.com/news/"},
+                {name: "Manila Bulletin", url: "https://mb.com.ph/"},
+                {name: "Philippine Star", url: "https://www.philstar.com/"},
             ];
 
             const comments = [
                 {user: "JuanDelaCruz", comment: "This information aligns with the official government statistics.", affirmation: true},
                 {user: "MariaClara", comment: "I've seen slightly different figures in other reports. It might be worth cross-checking.", affirmation: false},
                 {user: "RizalFan", comment: "The article provides good sources to back its claims, increasing its credibility.", affirmation: true},
+                {user: "PinoyPride", comment: "I'm skeptical about these numbers. We need more context.", affirmation: false},
+                {user: "FactChecker101", comment: "After verifying with multiple sources, this information seems accurate.", affirmation: true},
             ];
 
             // Simulate matching with credible sources (70% weight)
@@ -163,22 +187,25 @@
             else if (totalScore >= 40) credibilityRating = "Untrustworthy";
             else credibilityRating = "Not Enough Information";
 
-            const commentApprovalRate = (comments.filter(c => c.affirmation).length / comments.length) * 100;
+            const sentimentScore = Math.random() * 100 - 50; // Random score between -50 and 50
 
             // Generate result HTML
             let resultHTML = `
-                <div class="score">Credibility Score: ${totalScore}/100 (${credibilityRating})</div>
+                <div class="score">Credibility Score: ${totalScore}/100<br>(${credibilityRating})</div>
                 <h3>Matching Credible Sources:</h3>
-                ${credibleSources.slice(0, sourceMatches).map(source => `
-                    <div class="source-match">
-                        <h4><a href="${source.url}" target="_blank">${source.name}</a></h4>
-                        <div>Matched content:</div>
-                        <div class="matched-content">"${source.matchedContent}"</div>
-                    </div>
-                `).join('')}
-                <h3>User Comments:</h3>
-                <div class="comment-meter">
-                    <div class="comment-meter-fill" style="width: ${commentApprovalRate}%;"></div>
+                ${credibleSources.sort(() => 0.5 - Math.random()).slice(0, sourceMatches).map(source => {
+                    const matchedContent = content.split('.')[Math.floor(Math.random() * content.split('.').length)];
+                    return `
+                        <div class="source-match">
+                            <h4><a href="${source.url}" target="_blank">${source.name}</a></h4>
+                            <div>Matched content:</div>
+                            <div class="matched-content">"${matchedContent}"</div>
+                        </div>
+                    `;
+                }).join('')}
+                <h3>Community Feedback and Votes:</h3>
+                <div class="sentiment-meter">
+                    <div class="sentiment-meter-fill" style="width: ${50 + sentimentScore/2}%; background-color: ${sentimentScore >= 0 ? '#4CAF50' : '#FF5252'};"></div>
                 </div>
                 ${comments.map(comment => `
                     <div class="comment ${comment.affirmation ? 'affirm' : 'refute'}">
