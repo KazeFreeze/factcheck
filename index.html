@@ -7,215 +7,243 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦅</text></svg>">
     <style>
-        :root {
-            --primary-color: #001f3f;
-            --text-color: #1a1f36;
-            --background-color: #f6f9fc;
-            --card-background: #ffffff;
-        }
-        body {
-            font-family: 'Inter', sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            color: var(--text-color);
-            background: linear-gradient(135deg, #FFB3BA 0%, #BAFFC9 25%, #BAE1FF 50%, #FFDFBA 75%, #FFFFBA 100%);
-            background-attachment: fixed;
-            min-height: 100vh;
-            position: relative;
-        }
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: inherit;
-            filter: blur(10px);
-            z-index: -1;
-        }
-        body::after {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEWFhYWDg4N3d3dtbW17e3t1dXWBgYGHh4d5eXlzc3OLi4ubm5uVlZWPj4+NjY19fX2JiYl/f39ra2uRkZGZmZlpaWmXl5dvb29xcXGTk5NnZ2c8TV1mAAAAG3RSTlNAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEAvEOwtAAAFVklEQVR4XpWWB67c2BUFb3g557T/hRo9/WUMZHlgr4Bg8Z4qQgQJlHI4A8SzFVrapvmTF9O7dmYRFZ60YiBhJRCgh1FYhiLAmdvX0CzTOpNE77ME0Zty/nWWzchDtiqrmQDeuv3powQ5ta2eN0FY0InkqDD73lT9c9lEzwUNqgFHs9VQce3TVClFCQrSTfOiYkVJQBmpbq2L6iZavPnAPcoU0dSw0SUTqz/GtrGuXfbyyBniKykOWQWGqwwMA7QiYAxi+IlPdqo+hYHnUt5ZPfnsHJyNiDtnpJyayNBkF6cWoYGAMY92U2hXHF/C1M8uP/ZtYdiuj26UdAdQQSXQErwSOMzt/XWRWAz5GuSBIkwG1H3FabJ2OsUOUhGC6tK4EMtJO0ttC6IBD3kM0ve0tJwMdSfjZo+EEISaeTr9P3wYrGjXqyC1krcKdhMpxEnt5JetoulscpyzhXN5FRpuPHvbeQaKxFAEB6EN+cYN6xD7RYGpXpNndMmZgM5Dcs3YSNFDHUo2LGfZuukSWyUYirJAdYbF3MfqEKmjM+I2EfhA94iG3L7uKrR+GdWD73ydlIB+6hgref1QTlmgmbM3/LeX5GI1Ux1RWpgxpLuZ2+I+IjzZ8wqE4nilvQdkUdfhzI5QDWy+kw5Wgg2pGpeEVeCCA7b85BO3F9DzxB3cdqvBzWcmzbyMiqhzuYqtHRVG2y4x+KOlnyqla8AoWWpuBoYRxzXrfKuILl6SfiWCbjxoZJUaCBj1CjH7GIaDbc9kqBY3W/Rgjda1iqQcOJu2WW+76pZC9QG7M00dffe9hNnseupFL53r8F7YHSwJWUKP2q+k7RdsxyOB11n0xtOvnW4irMMFNV4H0uqwS5ExsmP9AxbDTc9JwgneAT5vTiUSm1E7BSflSt3bfa1tv8Di3R8n3Af7MNWzs49hmauE2wP+ttrq+AsWpFG2awvsuOqbipWHgtuvuaAE+A1Z/7gC9hesnr+7wqCwG8c5yAg3AL1fm8T9AZtp/bbJGwl1pNrE7RuOX7PeMRUERVaPpEs+yqeoSmuOlokqw49pgomjLeh7icHNlG19yjs6XXOMedYm5xH2YxpV2tc0Ro2jJfxC50ApuxGob7lMsxfTbeUv07TyYxpeLucEH1gNd4IKH2LAg5TdVhlCafZvpskfncCfx8pOhJzd76bJWeYFnFciwcYfubRc12Ip/ppIhA1/mSZ/RxjFDrJC5xifFjJpY2Xl5zXdguFqYyTR1zSp1Y9p+tktDYYSNflcxI0iyO4TPBdlRcpeqjK/piF5bklq77VSEaA+z8qmJTFzIWiitbnzR794USKBUaT0NTEsVjZqLaFVqJoPN9ODG70IPbfBHKK+/q/AWR0tJzYHRULOa4MP+W/HfGadZUbfw177G7j/OGbIs8TahLyynl4X4RinF793Oz+BU0saXtUHrVBFT/DnA3ctNPoGbs4hRIjTok8i+algT1lTHi4SxFvONKNrgQFAq2/gFnWMXgwffgYMJpiKYkmW3tTg3ZQ9Jq+f8XN+A5eeUKHWvJWJ2sgJ1Sop+wwhqFVijqWaJhwtD8MNlSBeWNNWTa5Z5kPZw5+LbVT99wqTdx29lMUH4OIG/D86ruKEauBjvH5xy6um/Sfj7ei6UUVk4AIl3MyD4MSSTOFgSwsH/QJWaQ5as7ZcmgBZkzjjU1UrQ74ci1gWBCSGHtuV1H2mhSnO3Wp/3fEV5a+4wz//6qy8JxjZsmxxy5+4w9CDNJY09T072iKG0EnOS0arEYgXqYnXcYHwjTtUNAcMelOd4xpkoqiTYICWFq0JSiPfPDQdnt+4/wuqcXY47QILbgAAAABJRU5ErkJggg==');
-            opacity: 0.1;
-            z-index: -1;
-        }
-        .container {
-            max-width: 1040px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-        h1 {
-            font-size: 48px;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 40px;
-            color: var(--primary-color);
-        }
-        .logo {
-            font-size: 148px;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .card {
-            background: var(--card-background);
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
-            padding: 30px;
-            margin-bottom: 30px;
-            transition: all 0.3s ease;
-        }
-        .card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
-        }
-        .card h3 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        textarea {
-            width: 100%;
-            padding: 15px;
-            margin-bottom: 20px;
-            border: 1px solid #e0e0e0;
-            border-radius: 4px;
-            font-size: 16px;
-            resize: vertical;
-            background: var(--background-color);
-            color: var(--text-color);
-            box-sizing: border-box;
-            transition: border-color 0.3s ease;
-        }
-        textarea:focus {
-            outline: none;
-            border-color: var(--primary-color);
-        }
-        button {
-            display: block;
-            width: 100%;
-            padding: 12px;
-            background: var(--primary-color);
-            color: #ffffff;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-        button:hover {
-            background-color: #0074D9;
-            transform: scale(1.05);
-        }
-        .score {
-            font-size: 36px;
-            font-weight: 700;
-            color: var(--primary-color);
-            margin-bottom: 30px;
-            text-align: center;
-        }
-        .source-match {
-            margin-bottom: 15px;
-        }
-        .source-match h4 {
-            margin-top: 0;
-            color: var(--primary-color);
-        }
-        .matched-content {
-            background: var(--background-color);
-            padding: 10px;
-            border-left: 3px solid var(--primary-color);
-            margin-top: 10px;
-            border-radius: 0 4px 4px 0;
-        }
-        .comment {
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 4px;
-            background: var(--background-color);
-        }
-        .sentiment-meter {
-            width: 100%;
-            height: 8px;
-            background-color: #e0e0e0;
-            border-radius: 4px;
-            overflow: hidden;
-            margin-bottom: 20px;
-        }
-        .sentiment-meter-fill {
-            height: 100%;
-            transition: width 0.5s ease-in-out;
-        }
-        .sentiment-percentage {
-            margin-left: 10px;
-            font-weight: 600;
-        }
-        a {
-            color: var(--primary-color);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        a:hover {
-            color: #5147ff;
-        }
-        .verified-badge {
-            display: inline-block;
-            width: 16px;
-            height: 16px;
-            background-color: var(--primary-color);
-            border-radius: 50%;
-            margin-left: 5px;
-            position: relative;
-            cursor: help;
-        }
-        .verified-badge::after {
-            content: "✓";
-            color: white;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 12px;
-        }
-        .verified-badge:hover::before {
-            content: "This contributor is verified";
-            position: absolute;
-            background-color: var(--text-color);
-            color: white;
-            padding: 5px 10px;
-            border-radius: 4px;
-            font-size: 12px;
-            white-space: nowrap;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1;
-        }
-        .ai-feedback {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-        }
-        .ai-model {
-            flex-basis: 48%;
-            background-color: #f0f0f0;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-        }
-        .affirm {
-            background-color: #e6ffe6;
-        }
-        .refute {
-            background-color: #ffe6e6;
-        }
-    </style>
+    :root {
+        --primary-color: #001f3f;
+        --text-color: #1a1f36;
+        --background-color: #f6f9fc;
+        --card-background: #ffffff;
+    }
+    body {
+        font-family: 'Inter', sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+        color: var(--text-color);
+        background: linear-gradient(135deg, #FFB3BA 0%, #BAFFC9 25%, #BAE1FF 50%, #FFDFBA 75%, #FFFFBA 100%);
+        background-attachment: fixed;
+        min-height: 100vh;
+        position: relative;
+    }
+    body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: inherit;
+        filter: blur(10px);
+        z-index: -1;
+    }
+    body::after {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/png;base64,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');
+        opacity: 0.1;
+        z-index: -1;
+    }
+    .container {
+        max-width: 1040px;
+        margin: 40px auto;
+        padding: 0 20px;
+    }
+    h1 {
+        font-size: 48px;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 40px;
+        color: var(--primary-color);
+    }
+    .logo {
+        font-size: 148px;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .card {
+        background: var(--card-background);
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+        padding: 30px;
+        margin-bottom: 30px;
+        transition: all 0.3s ease;
+    }
+    .card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
+    }
+    .card h3 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    textarea {
+        width: 100%;
+        padding: 15px;
+        margin-bottom: 20px;
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+        font-size: 16px;
+        resize: vertical;
+        background: var(--background-color);
+        color: var(--text-color);
+        box-sizing: border-box;
+        transition: border-color 0.3s ease;
+    }
+    textarea:focus {
+        outline: none;
+        border-color: var(--primary-color);
+    }
+    button {
+        display: block;
+        width: 100%;
+        padding: 12px;
+        background: var(--primary-color);
+        color: #ffffff;
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    button:hover {
+        background-color: #0074D9;
+        transform: scale(1.05);
+    }
+    .score {
+        font-size: 36px;
+        font-weight: 700;
+        color: var(--primary-color);
+        margin-bottom: 30px;
+        text-align: center;
+    }
+    .source-match {
+        margin-bottom: 15px;
+    }
+    .source-match h4 {
+        margin-top: 0;
+        color: var(--primary-color);
+    }
+    .matched-content {
+        background: var(--background-color);
+        padding: 10px;
+        border-left: 3px solid var(--primary-color);
+        margin-top: 10px;
+        border-radius: 0 4px 4px 0;
+    }
+    .comment {
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 4px;
+        background: var(--background-color);
+    }
+    .sentiment-meter {
+        width: 100%;
+        height: 8px;
+        background-color: #e0e0e0;
+        border-radius: 4px;
+        overflow: hidden;
+        margin-bottom: 20px;
+    }
+    .sentiment-meter-fill {
+        height: 100%;
+        transition: width 1.5s ease-in-out;
+        width: 0;
+    }
+    .sentiment-percentage {
+        margin-left: 10px;
+        font-weight: 600;
+    }
+    a {
+        color: var(--primary-color);
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+    a:hover {
+        color: #5147ff;
+    }
+    .verified-badge {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        background-color: var(--primary-color);
+        border-radius: 50%;
+        margin-left: 5px;
+        position: relative;
+        cursor: help;
+    }
+    .verified-badge::after {
+        content: "✓";
+        color: white;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 12px;
+    }
+    .verified-badge:hover::before {
+        content: "This contributor is verified";
+        position: absolute;
+        background-color: var(--text-color);
+        color: white;
+        padding: 5px 10px;
+        border-radius: 4px;
+        font-size: 12px;
+        white-space: nowrap;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1;
+    }
+    .ai-feedback {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+    .ai-model {
+        flex-basis: 48%;
+        background-color: #f0f0f0;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+    }
+    .affirm {
+        background-color: #e6ffe6;
+    }
+    .refute {
+        background-color: #ffe6e6;
+    }
+    .loading {
+        display: none;
+        justify-content: center;
+        align-items: center;
+        height: 100px;
+    }
+    .loading-circle {
+        border: 5px solid #f3f3f3;
+        border-top: 5px solid var(--primary-color);
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    .typing-animation::after {
+        content: '|';
+        animation: blink 0.7s infinite;
+    }
+    @keyframes blink {
+        0% { opacity: 1; }
+        50% { opacity: 0; }
+        100% { opacity: 1; }
+    }
+</style>
 </head>
 <body>
     <div class="container">
@@ -225,13 +253,23 @@
             <textarea id="content" rows="8" placeholder="Enter content or paste website URL here"></textarea>
             <button onclick="checkCredibility()">Check Credibility</button>
         </div>
+        <div class="loading">
+            <div class="loading-circle"></div>
+        </div>
         <div id="result"></div>
     </div>
-<script>
-    function checkCredibility() {
-        const content = document.getElementById('content').value;
-        const result = document.getElementById('result');
+    <script>
+function checkCredibility() {
+    const content = document.getElementById('content').value;
+    const result = document.getElementById('result');
+    const loading = document.querySelector('.loading');
 
+    // Show loading animation
+    loading.style.display = 'flex';
+    result.innerHTML = '';
+
+    // Simulate API call delay
+    setTimeout(() => {
         const credibleSources = [
             {name: "Rappler", url: "https://www.rappler.com/"},
             {name: "ABS-CBN News", url: "https://news.abs-cbn.com/"},
@@ -298,7 +336,7 @@
             <div class="card">
                 <h3>Community Feedback and Votes:</h3>
                 <div class="sentiment-meter">
-                    <div class="sentiment-meter-fill" style="width: ${sentimentScore}%; background-color: ${isMajorityAffirmative ? '#4CAF50' : '#FF5252'};"></div>
+                    <div class="sentiment-meter-fill" style="width: 0%; background-color: ${isMajorityAffirmative ? '#4CAF50' : '#FF5252'};"></div>
                 </div>
                 <span class="sentiment-percentage">${sentimentScore}% Affirmation</span>
                 ${comments.map(comment => `
@@ -314,22 +352,80 @@
                 <div class="ai-feedback">
                     <div class="ai-model">
                         <strong>GPT:</strong>
-                        <p>The content appears to be ${credibilityRating.toLowerCase()} based on our analysis.</p>
+                        <p class="typing-animation"></p>
                     </div>
                     <div class="ai-model">
                         <strong>Claude:</strong>
-                        <p>Our evaluation suggests that this information is ${credibilityRating.toLowerCase()}. Further verification may be needed.</p>
+                        <p class="typing-animation"></p>
                     </div>
                     <div class="ai-model">
                         <strong>Gemini:</strong>
-                        <p>Based on our assessment, the information provided seems ${credibilityRating.toLowerCase()}. We recommend cross-referencing with additional sources.</p>
+                        <p class="typing-animation"></p>
                     </div>
                 </div>
             </div>
         `;
 
+        // Hide loading animation and show result
+        loading.style.display = 'none';
         result.innerHTML = resultHTML;
-    }
+
+        // Animate sentiment meter
+        setTimeout(() => {
+            const sentimentMeterFill = document.querySelector('.sentiment-meter-fill');
+            sentimentMeterFill.style.width = `${sentimentScore}%`;
+        }, 100);
+
+        // Simulate typing for AI verification
+        const aiResponses = [
+            `The content appears to be ${credibilityRating.toLowerCase()} based on our analysis.`,
+            `Our evaluation suggests that this information is ${credibilityRating.toLowerCase()}. Further verification may be needed.`,
+            `Based on our assessment, the information provided seems ${credibilityRating.toLowerCase()}. We recommend cross-referencing with additional sources.`
+        ];
+
+        const typingElements = document.querySelectorAll('.typing-animation');
+        typingElements.forEach((element, index) => {
+            typeText(element, aiResponses[index]);
+        });
+    }, 2000); // Simulate 2 second delay
+}
+
+function typeText(element, text) {
+    let i = 0;
+    const intervalId = setInterval(() => {
+        if (i < text.length) {
+            element.textContent += text.charAt(i);
+            i++;
+        } else {
+            clearInterval(intervalId);
+            element.classList.remove('typing-animation');
+        }
+    }, 50);
+}
+
+// Intersection Observer for animating elements when they come into view
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            if (entry.target.classList.contains('sentiment-meter-fill')) {
+                entry.target.style.width = entry.target.getAttribute('data-width');
+            } else if (entry.target.classList.contains('typing-animation')) {
+                typeText(entry.target, entry.target.getAttribute('data-text'));
+            }
+            observer.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.5 });
+
+// Observe elements after they are added to the DOM
+const observeElements = () => {
+    document.querySelectorAll('.sentiment-meter-fill, .typing-animation').forEach(el => {
+        observer.observe(el);
+    });
+};
+
+// Call observeElements after the result is rendered
+document.getElementById('result').addEventListener('DOMNodeInserted', observeElements);
 </script>
 </body>
 </html>
