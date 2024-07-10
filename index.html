@@ -8,7 +8,7 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦅</text></svg>">
     <style>
         :root {
-            --primary-color: #635bff;
+            --primary-color: #001f3f;
             --text-color: #1a1f36;
             --background-color: #f6f9fc;
             --card-background: #ffffff;
@@ -19,7 +19,8 @@
             margin: 0;
             padding: 0;
             color: var(--text-color);
-            background: linear-gradient(150deg, #f6f9fc 15%, #ffffff 70%, #f6f9fc 94%);
+            background: linear-gradient(135deg, #001f3f 0%, #0074D9 50%, #7FDBFF 100%);
+            background-attachment: fixed;
             min-height: 100vh;
         }
         .container {
@@ -75,16 +76,15 @@
             background: var(--primary-color);
             color: #ffffff;
             border: none;
-            border-radius: 4px;
+            border-radius: 25px;
             cursor: pointer;
             font-size: 16px;
             font-weight: 600;
             transition: all 0.3s ease;
         }
         button:hover {
-            background: #5147ff;
-            transform: translateY(-1px);
-            box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
+            background-color: #0074D9;
+            transform: scale(1.05);
         }
         .score {
             font-size: 36px;
@@ -170,6 +170,18 @@
             transform: translateX(-50%);
             z-index: 1;
         }
+        .ai-feedback {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .ai-model {
+            flex-basis: 48%;
+            background-color: #f0f0f0;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 <body>
@@ -188,7 +200,6 @@
             const content = document.getElementById('content').value;
             const result = document.getElementById('result');
 
-            // Dummy data for demonstration
             const credibleSources = [
                 {name: "Rappler", url: "https://www.rappler.com/"},
                 {name: "ABS-CBN News", url: "https://news.abs-cbn.com/"},
@@ -204,26 +215,29 @@
                 {user: "RizalFan", comment: "The article provides good sources to back its claims, increasing its credibility.", affirmation: true, verified: true},
                 {user: "PinoyPride", comment: "I'm skeptical about these numbers. We need more context.", affirmation: false, verified: false},
                 {user: "FactChecker101", comment: "After verifying with multiple sources, this information seems accurate.", affirmation: true, verified: true},
+                {user: "NewsJunkie", comment: "This contradicts what I've read elsewhere. I'd be cautious.", affirmation: false, verified: false},
+                {user: "DataAnalyst22", comment: "The methodology used here seems sound. I trust these results.", affirmation: true, verified: true},
+                {user: "SkepticalSam", comment: "Without more context, it's hard to judge the accuracy of this information.", affirmation: false, verified: true},
+                {user: "TruthSeeker", comment: "I've independently verified these claims. They check out.", affirmation: true, verified: false},
+                {user: "MediaWatcher", comment: "This seems to be sensationalized. The actual data tells a different story.", affirmation: false, verified: true}
             ];
 
-            // Simulate matching with credible sources (70% weight)
             const sourceMatches = Math.floor(Math.random() * 3) + 1;
             const sourceScore = (sourceMatches / credibleSources.length) * 70;
 
-            // Simulate comment analysis (30% weight)
             const commentScore = (comments.filter(c => c.affirmation).length / comments.length) * 30;
 
             const totalScore = Math.round(sourceScore + commentScore);
 
             let credibilityRating;
-            if (totalScore >= 80) credibilityRating = "Credible";
-            else if (totalScore >= 60) credibilityRating = "Mixed";
-            else if (totalScore >= 40) credibilityRating = "Untrustworthy";
-            else credibilityRating = "Not Enough Information";
+            const randomRating = Math.random();
+            if (randomRating < 0.25) credibilityRating = "Not Enough Information";
+            else if (randomRating < 0.5) credibilityRating = "Untrustworthy";
+            else if (randomRating < 0.75) credibilityRating = "Mixed";
+            else credibilityRating = "Credible";
 
             const sentimentScore = (comments.filter(c => c.affirmation).length / comments.length) * 100;
 
-            // Generate result HTML
             let resultHTML = `
                 <div class="card">
                     <div class="score">Credibility Score: ${totalScore}/100<br>(${credibilityRating})</div>
@@ -255,8 +269,20 @@
                 </div>
                 <div class="card">
                     <h3>AI Model Verification:</h3>
-                    <p><strong>GPT:</strong> The content appears to be ${credibilityRating.toLowerCase()} based on our analysis.</p>
-                    <p><strong>Claude:</strong> Our evaluation suggests that this information is ${credibilityRating.toLowerCase()}. Further verification may be needed.</p>
+                    <div class="ai-feedback">
+                        <div class="ai-model">
+                            <strong>GPT:</strong>
+                            <p>The content appears to be ${credibilityRating.toLowerCase()} based on our analysis.</p>
+                        </div>
+                        <div class="ai-model">
+                            <strong>Claude:</strong>
+                            <p>Our evaluation suggests that this information is ${credibilityRating.toLowerCase()}. Further verification may be needed.</p>
+                        </div>
+                        <div class="ai-model">
+                            <strong>Gemini:</strong>
+                            <p>Based on our assessment, the information provided seems ${credibilityRating.toLowerCase()}. We recommend cross-referencing with additional sources.</p>
+                        </div>
+                    </div>
                 </div>
             `;
 
