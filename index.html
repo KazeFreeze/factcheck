@@ -352,16 +352,16 @@ function checkCredibility() {
                 <div class="ai-feedback">
                     <div class="ai-model">
                         <strong>GPT:</strong>
-                        <p class="typing-animation" data-text=""></p>
+                        <p id="gpt-response"></p>
                     </div>
                     <div class="ai-model">
                         <strong>Claude:</strong>
-                        <p class="typing-animation" data-text=""></p>
+                        <p id="claude-response"></p>
                     </div>
                     <div class="ai-model">
                         <strong>Gemini:</strong>
-                        <p class="typing-animation" data-text=""></p>
-                    </div>                
+                        <p id="gemini-response"></p>
+                    </div>
                 </div>
             </div>
         `;
@@ -386,6 +386,10 @@ function checkCredibility() {
             `Based on our assessment, the information provided seems ${credibilityRating.toLowerCase()}. We recommend cross-referencing with additional sources.`
         ];
         
+        setTimeout(() => typeText(document.getElementById('gpt-response'), aiResponses[0]), 500);
+        setTimeout(() => typeText(document.getElementById('claude-response'), aiResponses[1]), 1500);
+        setTimeout(() => typeText(document.getElementById('gemini-response'), aiResponses[2]), 2500);
+        
         const typingElements = document.querySelectorAll('.typing-animation');
         typingElements.forEach((element, index) => {
             element.setAttribute('data-text', aiResponses[index]);
@@ -402,7 +406,6 @@ function typeText(element, text, speed = 50) {
             i++;
         } else {
             clearInterval(intervalId);
-            element.classList.remove('typing-animation');
         }
     }, speed);
 }
