@@ -228,99 +228,98 @@
         <div id="result"></div>
     </div>
 <script>
-        function checkCredibility() {
-            const content = document.getElementById('content').value;
-            const result = document.getElementById('result');
+    function checkCredibility() {
+        const content = document.getElementById('content').value;
+        const result = document.getElementById('result');
 
-            const credibleSources = [
-                {name: "Rappler", url: "https://www.rappler.com/"},
-                {name: "ABS-CBN News", url: "https://news.abs-cbn.com/"},
-                {name: "Philippine Daily Inquirer", url: "https://www.inquirer.net/"},
-                {name: "GMA News Online", url: "https://www.gmanetwork.com/news/"},
-                {name: "Manila Bulletin", url: "https://mb.com.ph/"},
-                {name: "Philippine Star", url: "https://www.philstar.com/"},
-            ];
+        const credibleSources = [
+            {name: "Rappler", url: "https://www.rappler.com/"},
+            {name: "ABS-CBN News", url: "https://news.abs-cbn.com/"},
+            {name: "Philippine Daily Inquirer", url: "https://www.inquirer.net/"},
+            {name: "GMA News Online", url: "https://www.gmanetwork.com/news/"},
+            {name: "Manila Bulletin", url: "https://mb.com.ph/"},
+            {name: "Philippine Star", url: "https://www.philstar.com/"},
+        ];
 
-            const comments = [
-                {user: "JuanDelaCruz", comment: "This information aligns with the official government statistics.", affirmation: true, verified: true},
-                {user: "MariaClara", comment: "I've seen slightly different figures in other reports. It might be worth cross-checking.", affirmation: false, verified: false},
-                {user: "RizalFan", comment: "The article provides good sources to back its claims, increasing its credibility.", affirmation: true, verified: true},
-                {user: "PinoyPride", comment: "I'm skeptical about these numbers. We need more context.", affirmation: false, verified: false},
-                {user: "FactChecker101", comment: "After verifying with multiple sources, this information seems accurate.", affirmation: true, verified: true},
-                {user: "NewsJunkie", comment: "This contradicts what I've read elsewhere. I'd be cautious.", affirmation: false, verified: false},
-                {user: "DataAnalyst22", comment: "The methodology used here seems sound. I trust these results.", affirmation: true, verified: true},
-                {user: "SkepticalSam", comment: "Without more context, it's hard to judge the accuracy of this information.", affirmation: false, verified: true},
-                {user: "TruthSeeker", comment: "I've independently verified these claims. They check out.", affirmation: true, verified: false},
-                {user: "MediaWatcher", comment: "This seems to be sensationalized. The actual data tells a different story.", affirmation: false, verified: true}
-            ];
+        const comments = [
+            {user: "JuanDelaCruz", comment: "This information aligns with the official government statistics.", affirmation: true, verified: true},
+            {user: "MariaClara", comment: "I've seen slightly different figures in other reports. It might be worth cross-checking.", affirmation: false, verified: false},
+            {user: "RizalFan", comment: "The article provides good sources to back its claims, increasing its credibility.", affirmation: true, verified: true},
+            {user: "PinoyPride", comment: "I'm skeptical about these numbers. We need more context.", affirmation: false, verified: false},
+            {user: "FactChecker101", comment: "After verifying with multiple sources, this information seems accurate.", affirmation: true, verified: true},
+            {user: "NewsJunkie", comment: "This contradicts what I've read elsewhere. I'd be cautious.", affirmation: false, verified: false},
+            {user: "DataAnalyst22", comment: "The methodology used here seems sound. I trust these results.", affirmation: true, verified: true},
+            {user: "SkepticalSam", comment: "Without more context, it's hard to judge the accuracy of this information.", affirmation: false, verified: true},
+            {user: "TruthSeeker", comment: "I've independently verified these claims. They check out.", affirmation: true, verified: false},
+            {user: "MediaWatcher", comment: "This seems to be sensationalized. The actual data tells a different story.", affirmation: false, verified: true}
+        ];
 
-            const sourceMatches = Math.floor(Math.random() * 3) + 1;
-            const sourceScore = (sourceMatches / credibleSources.length) * 70;
+        const sourceMatches = Math.floor(Math.random() * 3) + 1;
+        const sourceScore = (sourceMatches / credibleSources.length) * 70;
 
-            const commentScore = (comments.filter(c => c.affirmation).length / comments.length) * 30;
+        const commentScore = (comments.filter(c => c.affirmation).length / comments.length) * 30;
 
-            const totalScore = Math.round(sourceScore + commentScore);
+        const totalScore = Math.round(sourceScore + commentScore);
 
-            let credibilityRating;
-            const randomRating = Math.random();
-            if (randomRating < 0.25) credibilityRating = "Not Enough Information";
-            else if (randomRating < 0.5) credibilityRating = "Untrustworthy";
-            else if (randomRating < 0.75) credibilityRating = "Mixed";
-            else credibilityRating = "Credible";
+        let credibilityRating;
+        if (totalScore >= 75) credibilityRating = "Credible";
+        else if (totalScore >= 50) credibilityRating = "Mixed";
+        else if (totalScore >= 25) credibilityRating = "Untrustworthy";
+        else credibilityRating = "Insufficient Information";
 
-            const sentimentScore = Math.floor(Math.random() * 101);
-            const isMajorityAffirmative = sentimentScore > 50;
+        const sentimentScore = Math.floor(Math.random() * 101);
+        const isMajorityAffirmative = sentimentScore > 50;
 
-            let resultHTML = `
-                <div class="card">
-                    <div class="score">Credibility Score: ${totalScore}/100<br>(${credibilityRating})</div>
-                    <h3>Matching Credible Sources:</h3>
-                    ${credibleSources.sort(() => 0.5 - Math.random()).slice(0, sourceMatches).map(source => {
-                        const matchedContent = content.split('.')[Math.floor(Math.random() * content.split('.').length)];
-                        return `
-                            <div class="source-match">
-                                <h4><a href="${source.url}" target="_blank">${source.name}</a></h4>
-                                <div>Matched content:</div>
-                                <div class="matched-content">"${matchedContent}"</div>
-                            </div>
-                        `;
-                    }).join('')}
+        let resultHTML = `
+            <div class="card">
+                <div class="score">Credibility Score: ${totalScore}/100<br>(${credibilityRating})</div>
+                <h3>Matching Credible Sources:</h3>
+                ${credibleSources.sort(() => 0.5 - Math.random()).slice(0, sourceMatches).map(source => {
+                    const matchedContent = content.split('.')[Math.floor(Math.random() * content.split('.').length)];
+                    return `
+                        <div class="source-match">
+                            <h4><a href="${source.url}" target="_blank">${source.name}</a></h4>
+                            <div>Matched content:</div>
+                            <div class="matched-content">"${matchedContent}"</div>
+                        </div>
+                    `;
+                }).join('')}
+            </div>
+            <div class="card">
+                <h3>Community Feedback and Votes:</h3>
+                <div class="sentiment-meter">
+                    <div class="sentiment-meter-fill" style="width: ${sentimentScore}%; background-color: ${isMajorityAffirmative ? '#4CAF50' : '#FF5252'};"></div>
                 </div>
-                <div class="card">
-                    <h3>Community Feedback and Votes:</h3>
-                    <div class="sentiment-meter">
-                        <div class="sentiment-meter-fill" style="width: ${sentimentScore}%; background-color: ${isMajorityAffirmative ? '#4CAF50' : '#FF5252'};"></div>
+                <span class="sentiment-percentage">${sentimentScore}% Affirmation</span>
+                ${comments.map(comment => `
+                    <div class="comment ${comment.affirmation ? 'affirm' : 'refute'}">
+                        <strong>@${comment.user}</strong>${comment.verified ? '<span class="verified-badge"></span>' : ''}:
+                        ${comment.comment}
+                        <em>(${comment.affirmation ? 'Affirms' : 'Refutes'})</em>
                     </div>
-                    <span class="sentiment-percentage">${sentimentScore}% Affirmation</span>
-                    ${comments.map(comment => `
-                        <div class="comment ${comment.affirmation ? 'affirm' : 'refute'}">
-                            <strong>@${comment.user}</strong>${comment.verified ? '<span class="verified-badge"></span>' : ''}:
-                            ${comment.comment}
-                            <em>(${comment.affirmation ? 'Affirms' : 'Refutes'})</em>
-                        </div>
-                    `).join('')}
-                </div>
-                <div class="card">
-                    <h3>AI Model Verification:</h3>
-                    <div class="ai-feedback">
-                        <div class="ai-model">
-                            <strong>GPT:</strong>
-                            <p>The content appears to be ${credibilityRating.toLowerCase()} based on our analysis.</p>
-                        </div>
-                        <div class="ai-model">
-                            <strong>Claude:</strong>
-                            <p>Our evaluation suggests that this information is ${credibilityRating.toLowerCase()}. Further verification may be needed.</p>
-                        </div>
-                        <div class="ai-model">
-                            <strong>Gemini:</strong>
-                            <p>Based on our assessment, the information provided seems ${credibilityRating.toLowerCase()}. We recommend cross-referencing with additional sources.</p>
-                        </div>
+                `).join('')}
+            </div>
+            <div class="card">
+                <h3>AI Model Verification:</h3>
+                <div class="ai-feedback">
+                    <div class="ai-model">
+                        <strong>GPT:</strong>
+                        <p>The content appears to be ${credibilityRating.toLowerCase()} based on our analysis.</p>
+                    </div>
+                    <div class="ai-model">
+                        <strong>Claude:</strong>
+                        <p>Our evaluation suggests that this information is ${credibilityRating.toLowerCase()}. Further verification may be needed.</p>
+                    </div>
+                    <div class="ai-model">
+                        <strong>Gemini:</strong>
+                        <p>Based on our assessment, the information provided seems ${credibilityRating.toLowerCase()}. We recommend cross-referencing with additional sources.</p>
                     </div>
                 </div>
-            `;
+            </div>
+        `;
 
-            result.innerHTML = resultHTML;
-        }
-    </script>
+        result.innerHTML = resultHTML;
+    }
+</script>
 </body>
 </html>
