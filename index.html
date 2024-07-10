@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fact Check</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦅</text></svg>">
     <style>
         body {
             font-family: 'Roboto', sans-serif;
@@ -29,10 +30,16 @@
         }
         h1 {
             text-align: center;
-            font-weight: 700;
+            font-weight: 900;
+            font-size: 48px;
+            margin-bottom: 30px;
+            background: linear-gradient(to right, transparent, rgba(74, 158, 255, 0.8), transparent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
         .logo {
-            font-size: 40px;
+            font-size: 80px;
             text-align: center;
             margin-bottom: 20px;
         }
@@ -40,12 +47,13 @@
             width: 100%;
             padding: 15px;
             margin-bottom: 20px;
-            border: 1px solid #444;
+            border: 2px solid #fff;
             border-radius: 4px;
             font-size: 16px;
             resize: vertical;
-            background: rgba(50, 50, 50, 0.8);
+            background: transparent;
             color: #e0e0e0;
+            box-sizing: border-box;
         }
         button {
             display: block;
@@ -96,6 +104,8 @@
             padding: 10px;
             margin-bottom: 10px;
             border-radius: 4px;
+            display: flex;
+            align-items: center;
         }
         .comment.affirm {
             background: rgba(0, 255, 0, 0.2);
@@ -118,18 +128,13 @@
             margin-bottom: 20px;
             position: relative;
         }
-        .sentiment-meter::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 50%;
-            width: 2px;
-            height: 100%;
-            background-color: #777;
-        }
         .sentiment-meter-fill {
             height: 100%;
             transition: width 0.5s ease-in-out;
+        }
+        .sentiment-percentage {
+            margin-left: 10px;
+            font-weight: bold;
         }
         a {
             color: #4a9eff;
@@ -137,6 +142,28 @@
         }
         a:hover {
             text-decoration: underline;
+        }
+        .user-profile {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #4a9eff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        .user-info {
+            display: flex;
+            flex-direction: column;
+        }
+        .user-fullname {
+            font-weight: bold;
+        }
+        .user-handle {
+            font-size: 0.8em;
+            color: #888;
         }
     </style>
 </head>
@@ -165,11 +192,11 @@
             ];
 
             const comments = [
-                {user: "JuanDelaCruz", comment: "This information aligns with the official government statistics.", affirmation: true},
-                {user: "MariaClara", comment: "I've seen slightly different figures in other reports. It might be worth cross-checking.", affirmation: false},
-                {user: "RizalFan", comment: "The article provides good sources to back its claims, increasing its credibility.", affirmation: true},
-                {user: "PinoyPride", comment: "I'm skeptical about these numbers. We need more context.", affirmation: false},
-                {user: "FactChecker101", comment: "After verifying with multiple sources, this information seems accurate.", affirmation: true},
+                {user: "JuanDelaCruz", fullName: "Juan Dela Cruz", comment: "This information aligns with the official government statistics.", affirmation: true},
+                {user: "MariaClara", fullName: "Maria Clara de los Santos", comment: "I've seen slightly different figures in other reports. It might be worth cross-checking.", affirmation: false},
+                {user: "RizalFan", fullName: "Jose Rizal Fan", comment: "The article provides good sources to back its claims, increasing its credibility.", affirmation: true},
+                {user: "PinoyPride", fullName: "Filipino Pride", comment: "I'm skeptical about these numbers. We need more context.", affirmation: false},
+                {user: "FactChecker101", fullName: "Fact Checker", comment: "After verifying with multiple sources, this information seems accurate.", affirmation: true},
             ];
 
             // Simulate matching with credible sources (70% weight)
@@ -187,7 +214,7 @@
             else if (totalScore >= 40) credibilityRating = "Untrustworthy";
             else credibilityRating = "Not Enough Information";
 
-            const sentimentScore = Math.random() * 100 - 50; // Random score between -50 and 50
+            const sentimentScore = (comments.filter(c => c.affirmation).length / comments.length) * 100;
 
             // Generate result HTML
             let resultHTML = `
@@ -205,12 +232,20 @@
                 }).join('')}
                 <h3>Community Feedback and Votes:</h3>
                 <div class="sentiment-meter">
-                    <div class="sentiment-meter-fill" style="width: ${50 + sentimentScore/2}%; background-color: ${sentimentScore >= 0 ? '#4CAF50' : '#FF5252'};"></div>
+                    <div class="sentiment-meter-fill" style="width: ${sentimentScore}%; background-color: ${sentimentScore > 50 ? '#4CAF50' : sentimentScore < 50 ? '#FF5252' : '#888'};"></div>
                 </div>
+                <span class="sentiment-percentage">${Math.round(sentimentScore)}% Affirmation</span>
                 ${comments.map(comment => `
                     <div class="comment ${comment.affirmation ? 'affirm' : 'refute'}">
-                        <strong>${comment.user}:</strong> ${comment.comment} 
-                        <em>(${comment.affirmation ? 'Affirms' : 'Refutes'})</em>
+                        <div class="user-profile">${comment.fullName.charAt(0)}</div>
+                        <div class="user-info">
+                            <span class="user-fullname">${comment.fullName}</span>
+                            <span class="user-handle">@${comment.user}</span>
+                        </div>
+                        <div class="comment-content">
+                            ${comment.comment}
+                            <em>(${comment.affirmation ? 'Affirms' : 'Refutes'})</em>
+                        </div>
                     </div>
                 `).join('')}
                 <div class="ai-verification">
