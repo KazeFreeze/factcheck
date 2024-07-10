@@ -370,28 +370,32 @@ function checkCredibility() {
         loading.style.display = 'none';
         result.innerHTML = resultHTML;
 
+        observeElements();
+        
         // Animate sentiment meter
         setTimeout(() => {
             const sentimentMeterFill = document.querySelector('.sentiment-meter-fill');
-            sentimentMeterFill.style.width = `${sentimentScore}%`;
+            sentimentMeterFill.style.width = '0%';
+            sentimentMeterFill.setAttribute('data-width', `${sentimentScore}%`);
         }, 100);
-
+        
         // Simulate typing for AI verification
         const aiResponses = [
             `The content appears to be ${credibilityRating.toLowerCase()} based on our analysis.`,
             `Our evaluation suggests that this information is ${credibilityRating.toLowerCase()}. Further verification may be needed.`,
             `Based on our assessment, the information provided seems ${credibilityRating.toLowerCase()}. We recommend cross-referencing with additional sources.`
         ];
-
+        
         const typingElements = document.querySelectorAll('.typing-animation');
         typingElements.forEach((element, index) => {
-            typeText(element, aiResponses[index]);
+            element.setAttribute('data-text', aiResponses[index]);
         });
     }, 2000); // Simulate 2 second delay
 }
 
-function typeText(element, text) {
+function typeText(element, text, speed = 50) {
     let i = 0;
+    element.textContent = '';
     const intervalId = setInterval(() => {
         if (i < text.length) {
             element.textContent += text.charAt(i);
@@ -400,9 +404,9 @@ function typeText(element, text) {
             clearInterval(intervalId);
             element.classList.remove('typing-animation');
         }
-    }, 50);
+    }, speed);
 }
-
+        
 // Intersection Observer for animating elements when they come into view
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -410,7 +414,11 @@ const observer = new IntersectionObserver((entries) => {
             if (entry.target.classList.contains('sentiment-meter-fill')) {
                 entry.target.style.width = entry.target.getAttribute('data-width');
             } else if (entry.target.classList.contains('typing-animation')) {
-                typeText(entry.target, entry.target.getAttribute('data-text'));
+                const delay = Math.random() * 1000; // Random delay up to 1 second
+                const speed = 30 + Math.random() * 40; // Random speed between 30ms and 70ms
+                setTimeout(() => {
+                    typeText(entry.target, entry.target.getAttribute('data-text'), speed);
+                }, delay);
             }
             observer.unobserve(entry.target);
         }
