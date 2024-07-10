@@ -59,7 +59,7 @@
             color: var(--primary-color);
         }
         .logo {
-            font-size: 64px;
+            font-size: 148px;
             text-align: center;
             margin-bottom: 20px;
         }
@@ -74,6 +74,10 @@
         .card:hover {
             transform: translateY(-2px);
             box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
+        }
+        .card h3 {
+            text-align: center;
+            margin-bottom: 20px;
         }
         textarea {
             width: 100%;
@@ -264,7 +268,8 @@
             else if (randomRating < 0.75) credibilityRating = "Mixed";
             else credibilityRating = "Credible";
 
-            const sentimentScore = Math.round((comments.filter(c => c.affirmation).length / comments.length) * 100);
+            const sentimentScore = Math.floor(Math.random() * 101);
+            const isMajorityAffirmative = sentimentScore > 50;
 
             let resultHTML = `
                 <div class="card">
@@ -284,7 +289,7 @@
                 <div class="card">
                     <h3>Community Feedback and Votes:</h3>
                     <div class="sentiment-meter">
-                        <div class="sentiment-meter-fill" style="width: ${sentimentScore}%; background-color: ${sentimentScore > 50 ? '#4CAF50' : sentimentScore < 50 ? '#FF5252' : '#888'};"></div>
+                        <div class="sentiment-meter-fill" style="width: ${sentimentScore}%; background-color: ${isMajorityAffirmative ? '#4CAF50' : '#FF5252'};"></div>
                     </div>
                     <span class="sentiment-percentage">${sentimentScore}% Affirmation</span>
                     ${comments.map(comment => `
